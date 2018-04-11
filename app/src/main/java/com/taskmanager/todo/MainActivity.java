@@ -1,11 +1,13 @@
 package com.taskmanager.todo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,6 +21,8 @@ import model.Todo;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String EXTRA_MESSAGE = "Main_Activity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +34,15 @@ public class MainActivity extends AppCompatActivity {
     private Todo test1 = new Todo("Test 1", "Sample Description 1", false, new Date());
     private Todo test2 = new Todo("Test 2", "Sample Description 2", true, new Date());
     private Todo[] all_tasks = {test1, test2};
+
+
+    public void sendMessage(View view) {
+        Intent intent = new Intent(this, DisplayMessageActivity.class);
+        TextView editText = findViewById(R.id.textView);
+        String message = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
 
     private void add_tasks_to_view(ViewGroup view, Todo[] tasks) {
 

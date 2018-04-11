@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">ToDo</string>
-    <string name="show_all_tasks">taskList</string>
-    <string name="task_list">taskView</string>
-    <string name="hello">Hello World !</string>
+    <string name="send">Send</string>
+    <string name="hello">Hello world !</string>
 </resources>
