@@ -7,8 +7,10 @@ public class Todo {
     private String description;
     private boolean done;
     private Date due;
+    private int id;
 
-    public Todo(String task_title, String desc, boolean status, Date due_date) {
+    public Todo(int  identity, String task_title, String desc, boolean status, Date due_date) {
+        id = identity;
         title = task_title;
         description = desc;
         done = status;
@@ -46,5 +48,9 @@ public class Todo {
     public void setDue(Date due) {
         this.due = due;
     }
+
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
 
 }
