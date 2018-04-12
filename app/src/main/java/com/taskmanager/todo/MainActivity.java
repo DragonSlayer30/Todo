@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             view.addView(task_title);
             ind = ind + 1;
         }
+        ind = 0;
         for (Todo task: tasks) {
             final TextView task_title = new TextView(context);
             task_title.setText(task.getTitle());
@@ -103,25 +104,25 @@ public class MainActivity extends AppCompatActivity {
             view.addView(task_title);
             ind = ind + 1;
         }
-        //view.setMinimumHeight(all_tasks.length * height);
-
-        /*
-        ViewGroup current_view = this.findViewById(R.id.tasks);
-        Context context = this.getApplicationContext();
-        LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setId(R.id.tas);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        ind = 0;
         for (Todo task: tasks) {
-            Log.d("Task", task.getTitle());
-            TextView task_title = new TextView(context);
+            final TextView task_title = new TextView(context);
             task_title.setText(task.getTitle());
+            task_title.setTextSize(30);
             task_title.setLayoutParams(params);
-            linearLayout.addView(task_title);
+            task_title.setBackground(getDrawable(R.drawable.border));
+            task_title.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            task_title.setGravity(Gravity.CENTER);
+            final int index = ind;
+            task_title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    sendMessage(view, index);
+                }
+            });
+            height = task_title.getHeight();
+            view.addView(task_title);
+            ind = ind + 1;
         }
-        Log.d("Length", "" + linearLayout.getChildCount());
-        View.inflate(context, linearLayout.getId(), current_view);
-        current_view.addView(linearLayout);
-        */
-
     }
 }
