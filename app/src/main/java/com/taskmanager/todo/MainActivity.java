@@ -23,7 +23,8 @@ import model.Todo;
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "Main_Activity";
-    private static Todo test1 = new Todo( 0,"Test 1", "Sample Description 1", false, new Date());
+    public static String INDEX = "INDEX";
+    private static Todo test1 = new Todo( 0,"Test 1", "Sample Description 1 Sample Description 1 Sample Description 1 Sample Description 1 Sample Description 1", false, new Date());
     private static Todo test2 = new Todo(1, "Test 2", "Sample Description 2", true, new Date());
     private static Todo test3 = new Todo(1, "Test 3", "Sample Description 2", true, new Date());
     private static Todo test4 = new Todo(1, "Test 4", "Sample Description 2", true, new Date());
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DisplayMessageActivity.class);
         String message = all_tasks[index].getTitle();
         intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(INDEX, index+"");
         startActivity(intent);
     }
 
