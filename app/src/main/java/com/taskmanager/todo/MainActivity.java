@@ -15,7 +15,14 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.Console;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -24,6 +31,7 @@ import model.Todo;
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "Main_Activity";
+    private static final String TASK_LIST = "TodoList.json";
     public static String INDEX = "INDEX";
     private static Todo test1 = new Todo( 0,"Test 1", "Sample Description 1", false, new Date());
     private static Todo test2 = new Todo(1, "Test 2", "Sample Description 2", true, new Date());
@@ -37,10 +45,27 @@ public class MainActivity extends AppCompatActivity {
     public static Todo[] all_tasks = {test1, test2, test3, test4, test5, test6, test7, test8};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        File directory = getApplicationContext().getFilesDir();
+        File file = new File(directory, TASK_LIST);
+        if(!file.exists()) {
+            createTaskFile();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         LinearLayout view = findViewById(R.id.taskList);
         add_tasks_to_view(view, all_tasks);
+    }
+
+    protected void createTaskFile() {
+        String fileContents = "Hello world!";
+        FileOutputStream outputStream;
+        try {
+            outputStream = openFileOutput(TASK_LIST, Context.MODE_PRIVATE);
+            outputStream.write(fileContents.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /*

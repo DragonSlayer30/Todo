@@ -16,10 +16,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DisplayMessageActivity" android:parentActivityName=".MainActivity" android:label="Task">
+        <activity
+            android:name=".DisplayMessageActivity"
+            android:label="Task"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".Edit_task"
+            android:label="Edit Task"
+            android:parentActivityName=".DisplayMessageActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".DisplayMessageActivity"/>
+
         </activity>
     </application>
 
