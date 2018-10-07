@@ -1,21 +1,15 @@
 package com.taskmanager.todo;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Paint;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 
 import model.Todo;
@@ -33,12 +27,15 @@ public class DisplayMessageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         INDEX = Integer.parseInt(intent.getStringExtra(MainActivity.INDEX));
-        Todo todo = MainActivity.all_tasks[INDEX];
+        Todo todo = MainActivity.all_tasks.get(INDEX);
         final TextView editText = findViewById(R.id.title);
-        editText.setText(message);
+        editText.setText(todo.getTitle());
         SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
         TextView dueDate = findViewById(R.id.dueDate);
-        dueDate.setText("Due : " + dt1.format(todo.getDue()));
+        if (todo.getDue() != null) dueDate.setText("Due : " + dt1.format(todo.getDue()));
+        else {
+            dueDate.setText("");
+        }
         TextView description = findViewById(R.id.description);
         description.setText(todo.getDescription());
     }
@@ -73,7 +70,25 @@ public class DisplayMessageActivity extends AppCompatActivity {
     }
 
     public boolean delete_Task(MenuItem item) {
-        Log.e("Deleting ", "on Click working");
+        MainActivity.all_tasks.remove(INDEX);
+        String fileContents = "[";
+        for (Todo task : MainActivity.all_tasks) {
+            fileContents = fileContents + task + "\n,";
+        }
+
+        fileContents = fileContents.substring(0, fileContents.length() - 1);
+        if (fileContents.length() == 0) fileContents = "[";
+        fileContents = fileContents + "]";
+        FileOutputStream outputStream;
+        try {
+            outputStream = openFileOutput(MainActivity.TASK_LIST, Context.MODE_PRIVATE);
+            outputStream.write(fileContents.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
         return true;
     }
 
