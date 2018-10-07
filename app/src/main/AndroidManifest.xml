@@ -24,13 +24,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".Edit_task"
+        <activity
+            android:name=".Edit_task"
             android:label="Edit Task"
             android:parentActivityName=".DisplayMessageActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".DisplayMessageActivity"/>
-
+                android:value=".DisplayMessageActivity" />
+        </activity>
+        <activity
+            android:name=".Create_Activity"
+            android:label="@string/title_activity_create_"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.taskmanager.todo.MainActivity" />
         </activity>
     </application>
 

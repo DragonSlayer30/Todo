@@ -43,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:onClick="showDatePickerDialog" />
+            android:onClick="showDatePickerDialog"
+            android:text="@string/set_date" />
 
         <TextView
             android:layout_width="match_parent"

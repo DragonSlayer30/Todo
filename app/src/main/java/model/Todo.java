@@ -1,5 +1,8 @@
 package model;
 
+import com.google.gson.Gson;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Todo {
@@ -7,9 +10,9 @@ public class Todo {
     private String description;
     private boolean done;
     private Date due;
-    private int id;
+    private long id;
 
-    public Todo(int  identity, String task_title, String desc, boolean status, Date due_date) {
+    public Todo(long identity, String task_title, String desc, boolean status, Date due_date) {
         id = identity;
         title = task_title;
         description = desc;
@@ -49,8 +52,23 @@ public class Todo {
         this.due = due;
     }
 
-    public int getId() { return id; }
+    public long getId() {
+        return id;
+    }
 
     public void setId(int id) { this.id = id; }
+
+    @Override
+    public String toString() {
+        String task = "{";
+        task = task + "\"id\":" + id + ",";
+        task = task + "\"title\":\"" + title + "\",";
+        task = task + "\"description\":\"" + description + "\",";
+        if (due != null)
+            task = task + "\"due\":\"" + new SimpleDateFormat("yyyy-MM-dd").format(due) + "\"";
+        task = task + "}";
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
 
 }
