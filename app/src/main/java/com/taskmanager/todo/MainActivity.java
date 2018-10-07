@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -11,6 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -85,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
         LinearLayout view = findViewById(R.id.taskList);
-        add_tasks_to_view(view, all_tasks);
+        //add_tasks_to_view(view, all_tasks);
+        add_tasks_skeleton(view, all_tasks);
     }
 
     @Override
@@ -125,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
         LinearLayout view = findViewById(R.id.taskList);
-        add_tasks_to_view(view, all_tasks);
+        add_tasks_skeleton(view, all_tasks);
 
     }
 
@@ -133,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     public void createTaskFile() {
         String fileContents = "[";
         int index = 0;
-        for (Todo task : all_tasks_demo) {
+        for (Todo task : all_tasks) {
             task.setId(index);
             fileContents = fileContents + task + "\n,";
             index++;
@@ -207,8 +212,7 @@ public class MainActivity extends AppCompatActivity {
             if(task.isDone()) {
                 task_title.setTextColor(getColor(R.color.successFinished));
                 task_title.setPaintFlags(task_title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
-            else  task_title.setTextColor(getColor(R.color.unfinsihed));
+            } else  task_title.setTextColor(getColor(R.color.unfinsihed));
             //task_title.setGravity(Gravity.CENTER);
             final int index = ind;
             task_title.setOnClickListener(new View.OnClickListener() {
@@ -222,5 +226,49 @@ public class MainActivity extends AppCompatActivity {
             ind = ind + 1;
         }
 
+    }
+
+    private void add_tasks_skeleton(ViewGroup view, List<Todo> tasks) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        Context context = this.getApplicationContext();
+        int ind = 0;
+        for (Todo task : tasks) {
+            ConstraintLayout constraintLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.skeleton_structure, null);
+            final TextView task_title = constraintLayout.findViewById(R.id.title);
+            final int checkBoxIndex = ind;
+            task_title.setText(task.getTitle());
+            task_title.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+            CheckBox doneStatus = constraintLayout.findViewById(R.id.checkBox);
+            doneStatus.setChecked(task.isDone());
+            doneStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    all_tasks.get(checkBoxIndex).setDone(b);
+                    createTaskFile();
+                }
+            });
+            final int index = ind;
+            constraintLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    sendMessage(view, index);
+                }
+            });
+            TextView desc = constraintLayout.findViewById(R.id.desc);
+            desc.setText(task.getDescription());
+            SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
+            TextView dueDate = constraintLayout.findViewById(R.id.dueDate);
+            if (task.getDue() != null) dueDate.setText("Due : " + dt1.format(task.getDue()));
+            else {
+                dueDate.setText("");
+            }
+            view.addView(constraintLayout);
+            ind = ind + 1;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.moveTaskToBack(true);
     }
 }

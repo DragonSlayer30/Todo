@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.io.FileOutputStream;
@@ -40,6 +41,8 @@ public class Edit_task extends AppCompatActivity {
         Button dueDate = findViewById(R.id.dueDate);
         dueDate.setText(dt1.format(todo.getDue()));
         TextView description = findViewById(R.id.description);
+        CheckBox checkBox = findViewById(R.id.doneStatus);
+        checkBox.setChecked(todo.isDone());
         description.setText(todo.getDescription());
     }
 
@@ -87,6 +90,8 @@ public class Edit_task extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        CheckBox checkBox = findViewById(R.id.doneStatus);
+        todo.setDone(checkBox.isChecked());
         TextView description = findViewById(R.id.description);
         todo.setDescription(description.getText().toString());
         MainActivity.all_tasks.set(INDEX, todo);

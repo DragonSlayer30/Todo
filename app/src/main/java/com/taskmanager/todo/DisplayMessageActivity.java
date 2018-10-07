@@ -27,6 +27,12 @@ public class DisplayMessageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         INDEX = Integer.parseInt(intent.getStringExtra(MainActivity.INDEX));
+        if (INDEX < -1 || INDEX > MainActivity.all_tasks.size() - 1) {
+            Intent intent1 = new Intent(this, MainActivity.class);
+            startActivity(intent1);
+            return;
+        }
+
         Todo todo = MainActivity.all_tasks.get(INDEX);
         final TextView editText = findViewById(R.id.title);
         editText.setText(todo.getTitle());
@@ -36,6 +42,10 @@ public class DisplayMessageActivity extends AppCompatActivity {
         else {
             dueDate.setText("");
         }
+        TextView checkBox = findViewById(R.id.dueStatusBoolean);
+        if (todo.isDone()) {
+            checkBox.setText("Completed");
+        } else checkBox.setText("Incomplete");
         TextView description = findViewById(R.id.description);
         description.setText(todo.getDescription());
     }
