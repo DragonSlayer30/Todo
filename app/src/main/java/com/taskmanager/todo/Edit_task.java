@@ -52,6 +52,7 @@ public class Edit_task extends AppCompatActivity {
         String message = todo.getTitle();
         intent.putExtra(MainActivity.INDEX, todo.getId() + "");
         startActivity(intent);
+        finish();
     }
 
     @Override

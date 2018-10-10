@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             final int index = ind;
-            constraintLayout.setOnClickListener(new View.OnClickListener() {
+            (constraintLayout.findViewById(R.id.task_container)).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     sendMessage(view, index);
