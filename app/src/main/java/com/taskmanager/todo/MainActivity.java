@@ -179,6 +179,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, Create_Activity.class);
                 startActivity(intent);
                 return true;
+            case R.id.add_alarm:
+                Intent alarm = new Intent(this, Set_Alarm.class);
+                startActivity(alarm);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

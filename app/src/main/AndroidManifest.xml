@@ -40,6 +40,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.taskmanager.todo.MainActivity" />
         </activity>
+        <activity android:name=".Set_Alarm" />
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

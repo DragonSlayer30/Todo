@@ -10,6 +10,8 @@
     <string name="cancel_task">Cancel</string>
     <string name="create_task">create_task</string>
     <string name="task_container">task_container</string>
+    <string name="add_alarm">add_alarm</string>
+    <string name="timeInput">Select Time</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_create_">Add Task</string>

@@ -6,4 +6,9 @@
         android:icon="@android:drawable/ic_input_add"
         android:title="@string/create_task"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/add_alarm"
+        android:icon="@android:drawable/ic_popup_reminder"
+        android:title="@string/add_alarm"
+        app:showAsAction="always" />
 </menu>
