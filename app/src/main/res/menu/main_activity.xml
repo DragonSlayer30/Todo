@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/create_task"
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@drawable/menu_icon_hamburger"
         android:title="@string/create_task"
         app:showAsAction="always" />
 </menu>

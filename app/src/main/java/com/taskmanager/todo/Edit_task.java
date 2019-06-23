@@ -28,9 +28,9 @@ public class Edit_task extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_task);
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String message = intent.getStringExtra(DashBoard.EXTRA_MESSAGE);
         INDEX = Integer.parseInt(intent.getStringExtra(DisplayMessageActivity.TASK_INDEX));
-        todo = MainActivity.all_tasks.get(INDEX);
+        todo = DashBoard.all_tasks.get(INDEX);
         displayDetails();
     }
 
@@ -50,7 +50,7 @@ public class Edit_task extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(this, DisplayMessageActivity.class);
         String message = todo.getTitle();
-        intent.putExtra(MainActivity.INDEX, todo.getId() + "");
+        intent.putExtra(DashBoard.INDEX, todo.getId() + "");
         startActivity(intent);
     }
 
@@ -94,9 +94,9 @@ public class Edit_task extends AppCompatActivity {
         todo.setDone(checkBox.isChecked());
         TextView description = findViewById(R.id.description);
         todo.setDescription(description.getText().toString());
-        MainActivity.all_tasks.set(INDEX, todo);
+        DashBoard.all_tasks.set(INDEX, todo);
         String fileContents = "[";
-        for (Todo task : MainActivity.all_tasks) {
+        for (Todo task : DashBoard.all_tasks) {
             fileContents = fileContents + task + "\n,";
         }
 
@@ -104,7 +104,7 @@ public class Edit_task extends AppCompatActivity {
         fileContents = fileContents + "]";
         FileOutputStream outputStream;
         try {
-            outputStream = openFileOutput(MainActivity.TASK_LIST, Context.MODE_PRIVATE);
+            outputStream = openFileOutput(DashBoard.TASK_LIST, Context.MODE_PRIVATE);
             outputStream.write(fileContents.getBytes());
             outputStream.close();
         } catch (Exception e) {

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
     tools:context=".DisplayMessageActivity">
 
     <ScrollView
@@ -29,10 +30,12 @@
 
             <TextView
                 android:id="@+id/title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:text="title"
+                android:background="@color/whiteBackground"
+                android:paddingLeft="15dp"
                 android:textStyle="bold|italic" />
 
             <TextView
@@ -43,6 +46,8 @@
                 android:inputType="date"
                 app:layout_constraintEnd_toStartOf="@+id/scrollView2"
                 app:layout_constraintStart_toStartOf="parent"
+                android:background="@color/whiteBackground"
+                android:paddingLeft="15dp"
                 tools:layout_editor_absoluteY="128dp" />
 
             <TextView
@@ -51,6 +56,9 @@
                 android:layout_width="match_parent"
                 android:inputType="textMultiLine"
                 app:layout_constraintEnd_toStartOf="@+id/scrollView2"
+                android:layout_marginBottom="15dp"
+                android:background="@color/whiteBackground"
+                android:paddingLeft="15dp"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
@@ -59,6 +67,8 @@
                 android:layout_height="wrap_content"
                 android:text="done @android:string/status_bar_notification_info_overflow"
                 tools:layout_editor_absoluteX="61dp"
+                android:background="@color/whiteBackground"
+                android:paddingLeft="15dp"
                 tools:layout_editor_absoluteY="158dp" />
 
         </LinearLayout>

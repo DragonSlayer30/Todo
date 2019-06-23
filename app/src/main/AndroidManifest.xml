@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.taskmanager.todo">
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +16,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"></activity>
+        <activity
+            android:name=".Calendar_Events"
+            android:label="@string/title_activity_calendar__events"
+            android:parentActivityName=".DashBoard">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.taskmanager.todo.DashBoard" />
+        </activity>
+        <activity android:name=".DashBoard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,15 +37,15 @@
         <activity
             android:name=".DisplayMessageActivity"
             android:label="Task"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".DashBoard">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".DashBoard" />
         </activity>
         <activity
             android:name=".Edit_task"
             android:label="Edit Task"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".DashBoard">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".DisplayMessageActivity" />
@@ -35,10 +53,10 @@
         <activity
             android:name=".Create_Activity"
             android:label="@string/title_activity_create_"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".DashBoard">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.taskmanager.todo.MainActivity" />
+                android:value="com.taskmanager.todo.DashBoard" />
         </activity>
     </application>
 

@@ -25,15 +25,15 @@ public class DisplayMessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        INDEX = Integer.parseInt(intent.getStringExtra(MainActivity.INDEX));
-        if (INDEX < -1 || INDEX > MainActivity.all_tasks.size() - 1) {
-            Intent intent1 = new Intent(this, MainActivity.class);
+        String message = intent.getStringExtra(DashBoard.EXTRA_MESSAGE);
+        INDEX = Integer.parseInt(intent.getStringExtra(DashBoard.INDEX));
+        if (INDEX < -1 || INDEX > DashBoard.all_tasks.size() - 1) {
+            Intent intent1 = new Intent(this, DashBoard.class);
             startActivity(intent1);
             return;
         }
 
-        Todo todo = MainActivity.all_tasks.get(INDEX);
+        Todo todo = DashBoard.all_tasks.get(INDEX);
         final TextView editText = findViewById(R.id.title);
         editText.setText(todo.getTitle());
         SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -80,9 +80,9 @@ public class DisplayMessageActivity extends AppCompatActivity {
     }
 
     public boolean delete_Task(MenuItem item) {
-        MainActivity.all_tasks.remove(INDEX);
+        DashBoard.all_tasks.remove(INDEX);
         String fileContents = "[";
-        for (Todo task : MainActivity.all_tasks) {
+        for (Todo task : DashBoard.all_tasks) {
             fileContents = fileContents + task + "\n,";
         }
 
@@ -91,13 +91,13 @@ public class DisplayMessageActivity extends AppCompatActivity {
         fileContents = fileContents + "]";
         FileOutputStream outputStream;
         try {
-            outputStream = openFileOutput(MainActivity.TASK_LIST, Context.MODE_PRIVATE);
+            outputStream = openFileOutput(DashBoard.TASK_LIST, Context.MODE_PRIVATE);
             outputStream.write(fileContents.getBytes());
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, DashBoard.class);
         startActivity(intent);
         return true;
     }
