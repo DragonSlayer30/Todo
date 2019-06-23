@@ -2,9 +2,9 @@ package com.taskmanager.todo;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -12,8 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -52,45 +51,11 @@ public class MainActivity extends AppCompatActivity {
     //public static List<Todo> all_tasks_demo = new ArrayList<>(Arrays.asList(test1, test2, test3, test4, test5, test6, test7, test8));
     public static List<Todo> all_tasks_demo = new ArrayList<>(Arrays.asList(test1, test2));
 
+    FloatingActionButton calendar_events;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        File directory = getApplicationContext().getFilesDir();
-        File file = new File(directory, TASK_LIST);
-        //file.delete();
-        if(!file.exists()) {
-            Log.e("You are ", "Fucking Stupid and Pathetic Loser, Creating a file");
-            createTaskFile();
-        }
-        //else file.delete();
-        //Read text from file
-        StringBuilder text = new StringBuilder();
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                text.append(line);
-                //text.append('\n');
-            }
-            br.close();
-        } catch (IOException e) {
-            //You'll need to add proper error handling here
-            Log.e("You are ", "Fucking Stupid and Pathetic Loser, File not found");
-        }
-        Gson googleJson = new Gson();
-        JsonArray tasksFromJson = googleJson.fromJson(text.toString(), JsonArray.class);
-        all_tasks.clear();
-        for (JsonElement t : tasksFromJson) {
-            Gson task = new Gson();
-            Todo taskObject = task.fromJson(t.toString(), Todo.class);
-            all_tasks.add(taskObject);
-        }
-        setContentView(R.layout.activity_main);
-        LinearLayout view = findViewById(R.id.taskList);
-        //add_tasks_to_view(view, all_tasks);
-        add_tasks_skeleton(view, all_tasks);
     }
 
     @Override
@@ -131,7 +96,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         LinearLayout view = findViewById(R.id.taskList);
         add_tasks_skeleton(view, all_tasks);
-
+        FloatingActionButton import_calendar = findViewById(R.id.import_calendar);
+        import_calendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent import_calendar = new Intent(getApplicationContext(), Create_Activity.class);
+                startActivity(import_calendar);
+            }
+        });
     }
 
 
@@ -192,53 +164,41 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void add_tasks_to_view(ViewGroup view, List<Todo> tasks) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.width = LinearLayout.LayoutParams.MATCH_PARENT;
-        params.setMargins(15,15,15,15);
-        params.weight = 1;
-        Context context = this.getApplicationContext();
-        int ind = 0;
-        int height = 0;
-        for (Todo task: tasks) {
-            final TextView task_title = new TextView(context);
-            task_title.setText(task.getTitle());
-            task_title.setTextSize(25);
-            task_title.setLayoutParams(params);
-            task_title.setBackground(getDrawable(R.drawable.border));
-            task_title.setBackgroundColor(getColor(R.color.whiteBackground));
-            task_title.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-            task_title.setPadding(15,0,0,0);
-            if(task.isDone()) {
-                task_title.setTextColor(getColor(R.color.successFinished));
-                task_title.setPaintFlags(task_title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            } else  task_title.setTextColor(getColor(R.color.unfinsihed));
-            //task_title.setGravity(Gravity.CENTER);
-            final int index = ind;
-            task_title.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    sendMessage(view, index);
-                }
-            });
-            height = task_title.getHeight();
-            view.addView(task_title);
-            ind = ind + 1;
-        }
-
-    }
-
     private void add_tasks_skeleton(ViewGroup view, List<Todo> tasks) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         Context context = this.getApplicationContext();
         int ind = 0;
         for (Todo task : tasks) {
-            ConstraintLayout constraintLayout = (ConstraintLayout) getLayoutInflater().inflate(R.layout.skeleton_structure, null);
+            LinearLayout constraintLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.skeleton_structure, null);
             final TextView task_title = constraintLayout.findViewById(R.id.title);
             final int checkBoxIndex = ind;
+            final Button status_button = constraintLayout.findViewById(R.id.status_button);
             task_title.setText(task.getTitle());
             task_title.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-            CheckBox doneStatus = constraintLayout.findViewById(R.id.checkBox);
+            //CheckBox doneStatus = constraintLayout.findViewById(R.id.checkBox);
+            if (task.isDone()) {
+                Drawable drawable = getResources().getDrawable(R.drawable.circular_success_status, null);
+                status_button.setBackground(drawable);
+            } else {
+                Drawable drawable = getResources().getDrawable(R.drawable.circular_background, null);
+                status_button.setBackground(drawable);
+            }
+            status_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Todo curr = all_tasks.get(checkBoxIndex);
+                    curr.setDone(!curr.isDone());
+                    if (curr.isDone()) {
+                        Drawable drawable = getResources().getDrawable(R.drawable.circular_success_status, null);
+                        view.setBackground(drawable);
+                    } else {
+                        Drawable drawable = getResources().getDrawable(R.drawable.circular_background, null);
+                        view.setBackground(drawable);
+                    }
+                    createTaskFile();
+                }
+            });
+            /*
             doneStatus.setChecked(task.isDone());
             doneStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -247,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
                     createTaskFile();
                 }
             });
+            */
             final int index = ind;
             constraintLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -262,7 +223,12 @@ public class MainActivity extends AppCompatActivity {
             else {
                 dueDate.setText("");
             }
+            LinearLayout.LayoutParams fillerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 30);
+            LinearLayout gapFiller = new LinearLayout(context);
+            gapFiller.setLayoutParams(fillerParams);
+            gapFiller.setBackgroundColor(getColor(R.color.mainBackground));
             view.addView(constraintLayout);
+            view.addView(gapFiller);
             ind = ind + 1;
         }
     }
